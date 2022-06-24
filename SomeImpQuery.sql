@@ -101,7 +101,36 @@ SELECT	'Return Value' = @return_value
 
 GO
 SELECT * FROM Student;
--------------
+-------------exception handling----------
+GO
+CREATE PROCEDURE dbo.spStudentDetails_select
+AS
+BEGIN
+BEGIN TRY
+	SELECT * FROM Student;
+END TRY
+BEGIN CATCH
+SELECT  
+            ERROR_NUMBER() AS ErrorNumber  
+            ,ERROR_SEVERITY() AS ErrorSeverity  
+            ,ERROR_STATE() AS ErrorState  
+            ,ERROR_PROCEDURE() AS ErrorProcedure  
+            ,ERROR_LINE() AS ErrorLine  
+            ,ERROR_MESSAGE() AS ErrorMessage;  
+    END CATCH
+END;
+USE [SomeQueries]
+GO
+
+DECLARE	@return_value int
+
+EXEC	@return_value = [dbo].[spStudentDetails_select]
+
+SELECT	'Return Value' = @return_value
+
+GO
+
+
 
 
 
